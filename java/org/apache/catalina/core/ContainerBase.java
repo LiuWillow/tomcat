@@ -221,7 +221,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
 
     /**
-     * The Realm with which this Container is associated.
+     * 与此容器关联的域
      */
     private volatile Realm realm = null;
 

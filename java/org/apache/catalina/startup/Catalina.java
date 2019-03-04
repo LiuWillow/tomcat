@@ -536,13 +536,13 @@ public class Catalina {
         loaded = true;
 
         long t1 = System.nanoTime();
-
+        //初始化java.io.tmpdir目录，系统临时文件夹
         initDirs();
 
         // Before digester - it may be needed
         initNaming();
 
-        // Create and execute our Digester
+        // 解析器、解析server.xml Create and execute our Digester
         Digester digester = createStartDigester();
 
         InputSource inputSource = null;

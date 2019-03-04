@@ -65,7 +65,7 @@ public final class Bootstrap {
         // Will always be non-null
         String userDir = System.getProperty("user.dir");
 
-        // Home first
+        // 获取tomcat安装目录
         String home = System.getProperty(Globals.CATALINA_HOME_PROP);
         File homeFile = null;
 
@@ -77,7 +77,7 @@ public final class Bootstrap {
                 homeFile = f.getAbsoluteFile();
             }
         }
-
+        //
         if (homeFile == null) {
             // First fall-back. See if current directory is a bin directory
             // in a normal Tomcat install
@@ -102,7 +102,7 @@ public final class Bootstrap {
                 homeFile = f.getAbsoluteFile();
             }
         }
-
+        //设置环境变量
         catalinaHomeFile = homeFile;
         System.setProperty(
                 Globals.CATALINA_HOME_PROP, catalinaHomeFile.getPath());
@@ -306,6 +306,7 @@ public final class Bootstrap {
             catalinaDaemon.getClass().getMethod(methodName, paramTypes);
         if (log.isDebugEnabled())
             log.debug("Calling startup class " + method);
+        //执行catalina的load方法
         method.invoke(catalinaDaemon, param);
 
     }
@@ -457,15 +458,17 @@ public final class Bootstrap {
     public static void main(String args[]) {
 
         if (daemon == null) {
-            // Don't set daemon until init() has completed
+            // 将commonLoader、catalinaLoader、sharedLoader、catalinaDaemon设为null
             Bootstrap bootstrap = new Bootstrap();
             try {
+                //初始化三个classLoader打破双亲委派模型，并实例化一个Catalina，设置其父类加载器，将实例赋值给catalinaDaemon
                 bootstrap.init();
             } catch (Throwable t) {
                 handleThrowable(t);
                 t.printStackTrace();
                 return;
             }
+            //赋值初始化后的bootstrap
             daemon = bootstrap;
         } else {
             // When running as a service the call to stop will be on a new
@@ -475,6 +478,7 @@ public final class Bootstrap {
         }
 
         try {
+            //默认命令行为start
             String command = "start";
             if (args.length > 0) {
                 command = args[args.length - 1];
