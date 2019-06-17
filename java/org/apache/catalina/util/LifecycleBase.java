@@ -146,7 +146,9 @@ public abstract class LifecycleBase implements Lifecycle {
         }
 
         try {
+            //将状态转换为STARTING_PREP，并触发
             setStateInternal(LifecycleState.STARTING_PREP, null, false);
+            //触发CONFIGURE_START_EVENT事件
             startInternal();
             if (state.equals(LifecycleState.FAILED)) {
                 // This is a 'controlled' failure. The component put itself into the

@@ -263,7 +263,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
             nioChannels = new SynchronizedStack<>(SynchronizedStack.DEFAULT_SIZE,
                     socketProperties.getBufferPool());
 
-            // Create worker collection
+            // TODO 什么规则，仔细看看
             if ( getExecutor() == null ) {
                 createExecutor();
             }

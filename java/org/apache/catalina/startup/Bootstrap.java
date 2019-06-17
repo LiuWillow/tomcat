@@ -493,6 +493,7 @@ public final class Bootstrap {
                 daemon.stop();
             } else if (command.equals("start")) {
                 daemon.setAwait(true);
+                //反射调用catalina的load方法，初始化java.io.tmpdir目录，初始化解析器，然后解析server.xml并包装成配置对象
                 daemon.load(args);
                 daemon.start();
                 if (null == daemon.getServer()) {
