@@ -896,6 +896,8 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     @Override
     protected void initInternal() throws LifecycleException {
         BlockingQueue<Runnable> startStopQueue = new LinkedBlockingQueue<>();
+        // 这个线程池只用于处理与此容器关联的任何子级任务的启动和停止事件
+        // 核心线程数量和最大线程数量默认为startStopThreads=1
         startStopExecutor = new ThreadPoolExecutor(
                 getStartStopThreadsInternal(),
                 getStartStopThreadsInternal(), 10, TimeUnit.SECONDS,

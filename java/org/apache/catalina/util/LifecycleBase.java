@@ -91,6 +91,7 @@ public abstract class LifecycleBase implements Lifecycle {
     protected void fireLifecycleEvent(String type, Object data) {
         LifecycleEvent event = new LifecycleEvent(this, type, data);
         for (LifecycleListener listener : lifecycleListeners) {
+            //可能会触发一些HostConfig等类的start
             listener.lifecycleEvent(event);
         }
     }
@@ -103,7 +104,9 @@ public abstract class LifecycleBase implements Lifecycle {
         }
 
         try {
+            //调用本类方法，设置了状态，同时触发事件，遍历所有对这个事件感兴趣的类，执行lifecycleEvent
             setStateInternal(LifecycleState.INITIALIZING, null, false);
+            //这个调用子类方法
             initInternal();
             setStateInternal(LifecycleState.INITIALIZED, null, false);
         } catch (Throwable t) {
@@ -146,9 +149,9 @@ public abstract class LifecycleBase implements Lifecycle {
         }
 
         try {
-            //将状态转换为STARTING_PREP，并触发
+            //将状态转换为STARTING_PREP，并触发事件
             setStateInternal(LifecycleState.STARTING_PREP, null, false);
-            //触发CONFIGURE_START_EVENT事件
+            //触发CONFIGURE_START_EVENT事件，也可能启动组件的child
             startInternal();
             if (state.equals(LifecycleState.FAILED)) {
                 // This is a 'controlled' failure. The component put itself into the

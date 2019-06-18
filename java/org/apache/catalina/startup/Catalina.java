@@ -542,9 +542,10 @@ public class Catalina {
         // Before digester - it may be needed
         initNaming();
 
-        // 解析器、解析server.xml Create and execute our Digester
+        // 创建解析器 Create and execute our Digester
         Digester digester = createStartDigester();
 
+        //下面获取web.xml，包装成文件和二进制流
         InputSource inputSource = null;
         InputStream inputStream = null;
         File file = null;
@@ -607,7 +608,9 @@ public class Catalina {
 
             try {
                 inputSource.setByteStream(inputStream);
+                //TODO 把当前解析器放到栈中，不知道为毛
                 digester.push(this);
+                //开始解析web.xml，解析完把对象注入digest里的root当中，也就是当前的Catalina对象
                 digester.parse(inputSource);
             } catch (SAXParseException spe) {
                 log.warn("Catalina.start using " + getConfigFile() + ": " +
@@ -634,7 +637,7 @@ public class Catalina {
         // Stream redirection
         initStreams();
 
-        // Start the new server
+        //初始化server、service、connector、endpoint
         try {
             getServer().init();
         } catch (LifecycleException e) {

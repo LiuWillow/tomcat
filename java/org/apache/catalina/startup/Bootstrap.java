@@ -461,7 +461,7 @@ public final class Bootstrap {
             // 将commonLoader、catalinaLoader、sharedLoader、catalinaDaemon设为null
             Bootstrap bootstrap = new Bootstrap();
             try {
-                //初始化三个classLoader打破双亲委派模型，并实例化一个Catalina，设置其父类加载器，将实例赋值给catalinaDaemon
+                //初始化三个classLoader打破双亲委派模型，并实例化一个Catalina，设置其父类加载器，将实例赋值给catalinaDaemon，没啥可研究的点
                 bootstrap.init();
             } catch (Throwable t) {
                 handleThrowable(t);

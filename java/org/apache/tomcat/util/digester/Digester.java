@@ -1515,6 +1515,7 @@ public class Digester extends DefaultHandler2 {
     public Object parse(InputSource input) throws IOException, SAXException {
 
         configure();
+        //TODO 这一步解析完成以后，解析后的内容都被放进root里了，用的SAXParser的技术，了解一下
         getXMLReader().parse(input);
         return (root);
 

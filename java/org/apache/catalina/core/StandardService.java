@@ -527,10 +527,11 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     protected void initInternal() throws LifecycleException {
-
+        //LifecycleMBeanBase的initInternal，感觉不重要
         super.initInternal();
 
         if (engine != null) {
+            //初始化engine，先调用LifeCycleBase的init，然后调用setStateInternal修改状态，接着调用子类的initInternal方法
             engine.init();
         }
 
@@ -545,7 +546,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         // Initialize mapper listener
         mapperListener.init();
 
-        // Initialize our defined Connectors
+        // 初始化connectors
         synchronized (connectorsLock) {
             for (Connector connector : connectors) {
                 try {
